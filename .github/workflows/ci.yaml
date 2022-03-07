@@ -2,12 +2,12 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [main]
     tags: [v*]
   pull_request:
-    branches: [master]
+    branches: [main]
   pull_request_target:
-    branches: [master]
+    branches: [main]
   schedule:
   - cron: 0 4 * * *
 jobs:
