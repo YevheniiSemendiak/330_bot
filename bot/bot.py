@@ -32,5 +32,10 @@ async def echo(message: types.Message) -> None:
     await message.answer(message.text)
 
 
+@dp.message_handler(regexp="(контакт|номер)")  # type: ignore
+async def contacts(message: types.Message) -> None:
+    await message.reply("Контактний номер уточнюється.")
+
+
 if __name__ == "__main__":
     executor.start_polling(dp, skip_updates=True)
