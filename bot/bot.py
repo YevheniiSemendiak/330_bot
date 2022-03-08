@@ -27,14 +27,14 @@ async def send_welcome(message: types.Message) -> None:
     )
 
 
+@dp.message_handler(regexp="контакт|номер|number|contact")  # type: ignore
+async def contacts(message: types.Message) -> None:
+    await message.reply("Контактний номер уточнюється.")
+
+
 @dp.message_handler()  # type: ignore
 async def echo(message: types.Message) -> None:
     await message.answer(message.text)
-
-
-@dp.message_handler(regexp="(контакт|номер)")  # type: ignore
-async def contacts(message: types.Message) -> None:
-    await message.reply("Контактний номер уточнюється.")
 
 
 if __name__ == "__main__":
