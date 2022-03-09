@@ -12,4 +12,4 @@ RUN pip3 install --no-cache-dir -U pip && \
 
 COPY bot /root/bot
 
-ENTRYPOINT python /root/bot/bot.py
+ENTRYPOINT ["python", "/root/bot/bot.py"]
