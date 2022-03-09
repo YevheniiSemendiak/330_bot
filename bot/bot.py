@@ -10,7 +10,7 @@ from aiogram.utils.executor import start_webhook
 
 
 API_TOKEN = os.environ["BOT_TOKEN"]
-HEROKU_APP_NAME = os.environ["APP_NAME"]
+HEROKU_APP_NAME = os.environ["HEROKU_APP_NAME"]
 
 # webhook settings
 WEBHOOK_HOST = f"https://{HEROKU_APP_NAME}.herokuapp.com/"
@@ -20,7 +20,6 @@ WEBHOOK_URL = f"{WEBHOOK_HOST}{API_TOKEN}"
 WEBAPP_HOST = "0.0.0.0"
 WEBAPP_PORT = int(os.environ["PORT"])
 
-# Configure logging
 logging.basicConfig(level=logging.INFO)
 
 # Initialize bot and dispatcher
