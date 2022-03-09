@@ -4,7 +4,6 @@ import logging
 import os
 
 from aiogram import Bot, Dispatcher, types
-from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.dispatcher.webhook import SendMessage
 from aiogram.utils.executor import start_webhook
 
@@ -24,7 +23,6 @@ logging.basicConfig(level=logging.INFO)
 # Initialize bot and dispatcher
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
-dp.middleware.setup(LoggingMiddleware())
 
 
 @dp.message_handler(commands=["start", "help"])  # type: ignore
@@ -36,9 +34,7 @@ async def send_welcome(message: types.Message) -> SendMessage:
     return SendMessage(message.chat.id, text, reply_to_message_id=message.message_id)
 
 
-@dp.message_handler(
-    commands=["contacts"], regexp="контакт|номер|number|contact"
-)  # type: ignore
+@dp.message_handler(regexp="контакт|номер|number|contact")  # type: ignore
 async def contacts(message: types.Message) -> SendMessage:
     return SendMessage(
         message.chat.id,
