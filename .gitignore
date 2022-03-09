@@ -42,4 +42,6 @@ coverage.xml
 !*.secret
 
 # secrets
-deploy/token
+deploy/test-bot-token
+deploy/prod-bot-token
+.env
