@@ -1,0 +1,36 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+    tags: [v*]
+
+jobs:
+
+  deploy-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "volunteers-3-30-bot"
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          usedocker: true
+        env:
+          HD_BOT_TOKEN: ${{secrets.TEST_BOT_TOKEN}}
+
+  deploy-prod:
+    runs-on: ubuntu-latest
+    if: contains(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "dobrobat330bot"
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          usedocker: true
+        env:
+          HD_BOT_TOKEN: ${{secrets.PROD_BOT_TOKEN}}
