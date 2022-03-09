@@ -13,8 +13,7 @@ API_TOKEN = os.environ["BOT_TOKEN"]
 HEROKU_APP_NAME = os.environ["HEROKU_APP_NAME"]
 
 # webhook settings
-WEBHOOK_HOST = f"https://{HEROKU_APP_NAME}.herokuapp.com/"
-WEBHOOK_URL = f"{WEBHOOK_HOST}{API_TOKEN}"
+WEBHOOK_URL = f"https://{HEROKU_APP_NAME}.herokuapp.com/{API_TOKEN}"
 
 # webserver settings
 WEBAPP_HOST = "0.0.0.0"
@@ -70,7 +69,7 @@ async def on_shutdown(dp: Dispatcher) -> None:
 if __name__ == "__main__":
     start_webhook(
         dispatcher=dp,
-        webhook_path=API_TOKEN,
+        webhook_path=f"/{API_TOKEN}",
         on_startup=on_startup,
         on_shutdown=on_shutdown,
         skip_updates=True,
