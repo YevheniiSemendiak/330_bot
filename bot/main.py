@@ -1,4 +1,6 @@
 import logging
+import sys
+from asyncio.exceptions import CancelledError
 
 from aiogram import Dispatcher, executor
 from aiogram.utils.executor import start_webhook
@@ -16,18 +18,33 @@ from bot.bot import (
 
 
 logging.basicConfig(level=logging.INFO)
+LOGGER = logging.getLogger(__name__)
 
 
 async def on_startup(dp: Dispatcher) -> None:
-    await bot_instance.set_webhook(WEBHOOK_URL)
-    # insert code here to run it after start
+    current_webhook = await bot_instance.get_webhook_info()
+    if current_webhook.url == WEBHOOK_URL:
+        LOGGER.info(f"The webhook is already registered.")
+    elif not current_webhook.url:
+        await bot_instance.set_webhook(WEBHOOK_URL)
+    else:
+        LOGGER.error(
+            "Current webhook differs from the registered one: "
+            f"{current_webhook} != {WEBHOOK_URL}"
+        )
 
 
 async def on_shutdown(dp: Dispatcher) -> None:
-    logging.warning("Shutting down..")
+    LOGGER.warning("Shutting down..")
 
-    # Remove webhook (not acceptable in some cases)
-    await bot_instance.delete_webhook()
+    exc_type, exc_inst, _ = sys.exc_info()
+    if exc_type and isinstance(exc_inst, (CancelledError, KeyboardInterrupt)):
+        LOGGER.warning(
+            f"Keeping webhook to continue routing traffic. Interrupted with {exc_type}."
+        )
+    else:
+        LOGGER.error(f"Removing webhook since got unexpected {exc_type}: {exc_inst}")
+        await bot_instance.delete_webhook()
 
     logging.warning("Bye!")
 
