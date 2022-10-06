@@ -1,4 +1,4 @@
 -r base.txt
-black==22.6.0
+black==22.10.0
 mypy==0.971
 pre-commit==2.20.0
